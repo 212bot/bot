@@ -1,0 +1,972 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hybrid Bootstrap Admin Template</title>
+    <!-- Bootstrap Styles-->
+    <link href="http://212bot.com/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="http://212bot.com/css/font-awesome.css" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <!--<link href="assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="http://212bot.com/css/custom-styles.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+      <link href="http://212bot.com/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+    <!--<script type="text/javascript" src="js/rule.js"></script>-->
+    <script type="text/javascript" src="websocket.js"></script>
+    <!--<script type="text/javascript" src="js/rule-b.js"></script>-->
+    <script type="text/javascript" src="http://212bot.com/js/socket.js"></script>
+</head>
+
+<body >
+  <div id="wrapper">
+      <nav class="navbar navbar-default top-navbar" role="navigation">
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="index.html"><i class="fa fa-gear"></i> <strong>BOT 86</strong></a>
+          </div>
+
+          <ul class="nav navbar-top-links navbar-right">
+              <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown">
+                      <i></i><i></i>
+                  </a>
+
+              </li>
+
+              <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown">
+                      <!--<i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>-->
+                  </a>
+                  <ul class="dropdown-menu dropdown-tasks">
+
+
+                  </ul>
+                  <!-- /.dropdown-tasks -->
+              </li>
+              <!-- /.dropdown -->
+              <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                      <i></i> <i></i>
+                  </a>
+                  <!-- /.dropdown-alerts -->
+              </li>
+              <!-- /.dropdown -->
+              <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                      <i></i> <i></i>
+                  </a>
+                  <!-- /.dropdown-user -->
+              </li>
+              <!-- /.dropdown -->
+          </ul>
+      </nav>
+        <!--/. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+        <div id="sideNav" href=""></div>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <li>
+                                         <div class="form-group has-success">
+                                            <!--<ul><label class="control-label" for="token_app">User Id :</label></ul>-->
+                                            <ul><label class="control-label" id="dis_user">User Id :</ul>
+                                           <!--<input type="password" class="form-control" id="token_api_a" value="" style=" width: 98%;background: #32C2CD url(../img/bg-img.jpg) !important;">-->
+                                        </div>
+                    </li>
+                                            <!--<ul><div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" id="bulktrading">Enable Bulk Trading
+                                                </label>
+                                            </div></ul>-->
+
+                    <a href="index.html" class="btn btn-warning" style="width: 45%">Resetting</a>
+                    <a onclick="log_out();" class="btn btn-danger" style="width: 50%">Log Out</a><br><br>
+                    <li>
+                        <a class="active-menu" id="dis_account"><i class="fa fa-user"></i> Account : VRTCXXXX</a>
+                    </li>
+					<li>
+                        <a class="active-menu" id="dis_email"><i class="fa fa-vk"></i> Email : </a>
+                    </li>
+                    <li>
+                        <a class="active-menu" id="dis_trade_a"><i class="fa fa-trophy"></i> Trade : 0 / Win : 0 / Loss : 0</a>
+                    </li>
+
+                    <li>
+                        <a class="active-menu" id="dis_indicator"><i class="fa fa-thumbs-down"></i> Virtual Up : 0 / Down : 0</a>
+                    </li>
+                    <li>
+                        <a class="active-menu" id="dis_total_a"><i class="fa fa-dollar"></i>Total Profit : 0</a>
+                       </li>
+                    <li>
+                        <a class="active-menu" id="dis_total_stake"><i class="fa fa-money"></i>Total Stake : 0</a>
+                       </li>
+                    <li>
+                        <a class="active-menu" id="dis_total_turnover"><i class="fa fa-bitcoin"></i>Turn Over : 0</a>
+                       </li>
+                    <li>
+                        <a class="active-menu" id="dis_start_time"><i class="fa fa-sign-in"></i>Start Time : 0</a>
+                        </li>
+                    <li>
+                        <a class="active-menu" id="dis_time"><i class="fa fa-sign-out"></i>Now Time : 0</a>
+                        <!--<a class="active-menu" id="dis_error"><i class="fa fa-sign-out"></i>Error : 0</a>-->
+
+                        <br></ul>
+                    <a onclick="start_trade()" class="btn btn-warning" style="width: 45%">Start Trade</a>
+                    <a onclick="ws.close();" class="btn btn-danger" style="width: 50%">Stop Trade</a><br><br>
+                    </li>
+                </ul>
+
+            </div>
+
+        </nav>
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper">
+            <div id="page-inner">
+
+
+                <div style="width: 100%">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <p2>BOT 86</p2>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="nav nav-tabs">
+                                <li class=""><a href="#home" data-toggle="tab">Home</a>
+                                </li>
+                                <li class=""><a href="#profitable" data-toggle="tab">Profitable</a>
+                                </li>
+                                <!--<li class=""><a href="#setting" data-toggle="tab">Settings</a>
+                                </li>-->
+                                <li class="active"><a href="#hedging" data-toggle="tab">Hedging</a>
+                                </li>
+                                <!--<li class="active"><a href="#manual" data-toggle="tab">Manual</a>
+                                </li>-->
+
+                            </ul>
+
+				 <div class="tab-content">
+
+<div class="tab-pane fade" id="home"><br>
+
+                <div class="row">
+
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder bg-color-blue">
+                              <div class="panel-left pull-left blue">
+                                <i class="fa fa-shopping-cart fa-5x"></i>
+                                </div>
+
+                            <div class="panel-right">
+                            <h3 id="dis_market">V 100 </h3>
+                               <strong> Market</strong>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder bg-color-red">
+                              <div class="panel-left pull-left red">
+                                <i class="fa fa-bar-chart-o fa-5x"></i>
+                                </div>
+
+                            <div class="panel-right">
+                            <h3 id="dis_spot">000.000 </h3>
+                               <strong> Spot</strong>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder bg-color-green">
+                              <div class="panel-left pull-left green">
+                                <i class="fa fa-signal fa-5x"></i>
+                                </div>
+
+                            <div class="panel-right">
+                            <h3 id="dis_signal">Wait </h3>
+                               <strong> Signal</strong>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder bg-color-brown">
+                              <div class="panel-left pull-left brown">
+                                <i class="fa fa-adjust fa-5x"></i>
+                                </div>
+
+                            <div class="panel-right">
+                            <h3 id="dis_margin">0 % </h3>
+                               <strong> Margin</strong>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder bg-color-brown">
+                            <div class="panel-left pull-left brown">
+                                <i class="fa fa-trophy fa-5x"></i>
+
+                            </div>
+                            <div class="panel-right">
+                            <h3 id="dis_trade">0 </h3>
+                             <strong>Trade</strong>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder bg-color-green">
+                              <div class="panel-left pull-left green">
+                                <i class="fa fa-thumbs-up fa-5x"></i>
+                                </div>
+
+                            <div class="panel-right">
+                            <h3 id="dis_won">0 </h3>
+                               <strong> Won</strong>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder bg-color-red">
+                              <div class="panel-left pull-left red">
+                                <i class="fa fa-thumbs-down fa-5x"></i>
+								</div>
+
+                            <div class="panel-right">
+							<h3 id="dis_loss">0 </h3>
+                               <strong> Loss</strong>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder bg-color-blue">
+                            <div class="panel-left pull-left blue">
+                                <i class="fa fa-dollar fa-5x"></i>
+
+                            </div>
+                            <div class="panel-right">
+							 <h3 id="dis_total">0 </h3>
+                               <strong> Profit </strong>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder bg-color-green">
+                            <div class="panel-left pull-left green">
+                                <i class="fa fa-plus-square fa-5x"></i>
+
+                            </div>
+                            <div class="panel-right">
+                            <h3 id="dis_take_profit">0 </h3>
+                             <strong>Take Profit</strong>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder bg-color-red">
+                            <div class="panel-left pull-left red">
+                                <i class="fa fa-minus-square fa-5x"></i>
+
+                            </div>
+                            <div class="panel-right">
+                            <h3 id="dis_stop_loss">0 </h3>
+                             <strong>Stop Loss</strong>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder bg-color-blue">
+                            <div class="panel-left pull-left blue">
+                                <i class="fa fa-sign-in fa-5x"></i>
+
+                            </div>
+                            <div class="panel-right">
+                            <h3 id="dis_balance">0 </h3>
+                             <strong>Balance First</strong>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder bg-color-brown">
+                            <div class="panel-left pull-left brown">
+                                <i class="fa fa-sign-out fa-5x"></i>
+
+                            </div>
+                            <div class="panel-right">
+                            <h3 id="dis_balance_after">0 </h3>
+                             <strong>Balance After</strong>
+
+                            </div>
+                        </div>
+                    </div>
+		</div></div>
+<!--<div class="tab-pane fade" id="setting" style="width: 100%">
+  <div class="panel-body">
+      <ul class="nav nav-tabs">
+          <li class=""><a href="#general" data-toggle="tab">Settings</a>
+          </li>
+          <li class="active"><a href="#manual" data-toggle="tab">Manual</a>
+          </li>
+
+      </ul>
+
+            <div class="tab-content">
+               <div class="tab-pane fade" id="general" style="width: 100%"><br>
+              <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            General Settings
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <form role="form">
+                                    <div class="col-lg-6">
+                                        <div class="form-group has-success">
+                                            <label class="control-label" for="token">Input Token</label>
+                                            <input type="password" class="form-control" id="token_api" value="">
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" id="bulktrading">Enable Bulk Trading
+                                                </label>
+                                            </div>
+
+                                        </div></div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group has-success">
+                                            <label>Type Trade</label>
+                                            <select class="form-control" id="type_trade">
+                                                <option selected="selected" value="higherlower">Higher/Lower</option>
+                                                <option value="touch">Touch</option>
+                                                <option value="nottouch">Not Touch</option>
+                                            </select>
+                                        </div></div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group has-success">
+                                            <label>Market</label>
+                                            <select class="form-control" id="market">
+                                                <option selected="selected" value="1">Volatility 10 Index</option>
+                                                <option value="2">Volatility 100 Index</option>
+                                                <option value="3">Volatility 25 Index</option>
+                                                <option value="4">Volatility 50 Index</option>
+                                                <option value="5">Volatility 75 Index</option>
+                                                <option value="6">Bear Market Index</option>
+                                                <option value="7">Bull Market INdex</option>
+                                            </select>
+                                        </div></div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group has-success">
+                                            <label class="control-label">Stake</label>
+                                            <input type="text" class="form-control" id="stake" value="0.5">
+                                        </div></div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group has-success">
+                                            <label class="control-label">Barrier Offset</label>
+                                            <input type="text" class="form-control" id="barrier" value="2.4">
+                                        </div></div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group has-success">
+                                            <label class="control-label">Duration</label>
+                                            <input type="text" class="form-control" id="duration" value="1">
+                                        </div></div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group has-success">
+                                            <label>Type Duration</label>
+                                            <select class="form-control" id="type_duration">
+                                                <option value="t">Tick</option>
+                                                <option value="s">Seconds</option>
+                                                <option selected="" value="m">Minutes</option>
+                                                <option value="h">Hours</option>
+                                                <option value="d">Day</option>
+                                            </select>
+                                        </div></div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group has-success">
+                                            <label class="control-label">Virtual Tick</label>
+                                            <input type="text" class="form-control" id="count_signal" value="5">
+                                        </div></div>
+                                        <div class="col-lg-6">
+                                         <div class="form-group has-success">
+                                            <label>Mode</label>
+                                            <select class="form-control" id="mode">
+                                                <option value="follow">Follow</option>
+                                                <option value="reverse" selected="selected">Reverse</option>
+                                            </select>
+                                        </div></div>
+                                    </form>
+                                </div>
+                              
+                                <div class="col-lg-6">
+                                    <form role="form">
+                                        <div class="col-lg-6">
+                                        <div class="form-group has-success">
+                                            <label class="control-label">Virtual Slave</label>
+                                            <input type="text" class="form-control" id="count_slave" value="3">
+                                        </div></div>
+                                        <div class="col-lg-6">
+                                         <div class="form-group has-success">
+                                            <label>Recovery</label>
+                                            <select class="form-control" id="metode">
+                                                <option value="reanalise" selected="selected">Reanalyze</option>
+                                                <option value="continue follow">Continue Follow</option>
+                                                <option value="continue reverse">Continue Reverse</option>
+                                            </select>
+                                        </div></div>
+                                        <div class="col-lg-6">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="system-martingle" id="enable_martingle" checked="checked">Enable Martingle
+                                                </label>
+                                            </div>
+                                        <div class="form-group has-success">
+                                            <label class="control-label" for="martingle">Multiplier Martingle</label>
+                                            <input type="text" class="form-control" id="martingle" value="28">
+                                        </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="system-martingle" id="enable_max_martingle" checked="checked">Enable Max Martingle
+                                                </label>
+                                            </div>
+                                        <div class="form-group has-success">
+                                            <label class="control-label">Max Martingle</label>
+                                            <input type="text" class="form-control" id="max_martingle" value="2">
+                                        </div></div>
+                                        <div class="col-lg-6">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="system-martingle" id="enable_martingle_strategy">Enable Martingle Strategy
+                                                </label>
+                                            </div>
+                                        <div class="form-group has-success">
+                                            <label class="control-label">Martingle Strategy</label>
+                                            <input type="text" class="form-control" id="count_martingle_strategy" placeholder="1-3-7-11">
+                                        </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" id="enable_compound">Enable Compound
+                                                </label>
+                                            </div>
+                                        <div class="form-group has-success">
+                                            <label class="control-label">Max Level Compound</label>
+                                            <input type="text" class="form-control" id="max_compound" value="5">
+                                        </div></div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group has-success">
+                                            <label class="control-label">Take Profit</label>
+                                            <input type="text" class="form-control" id="take_profit" value="10">
+                                        </div></div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group has-success">
+                                            <label class="control-label">Stop Loss</label>
+                                            <input type="text" class="form-control" id="stop_loss" value="20">
+                                        </div></div>
+                                        <div class="col-lg-6">
+                                        <a onclick="saving()" class="btn btn-warning" style="width: 45%">Saving</a>
+                                        <a onclick="log_in()" class="btn btn-success" style="width: 50%">Playing</a>
+                                        </div>
+                                    </form>
+                                </div>
+                              
+                            </div>
+                           
+                        </div>
+                       
+                    </div>
+                   
+                </div>
+                
+            </div>
+<div></div></div>-->
+<!--<div class="tab-pane fade active in" id="manual" style="width: 100%"><br>
+  <ul><ul><ul><ul><ul>
+    <div class="row" >
+      <div class="col-md-4 col-sm-12 col-xs-12">
+          <div class="panel panel-default">
+              <div class="panel-heading" style="background-color: #DCDCDC">
+                  Manual Trading
+              </div>
+              <div class="panel-body" style="background-color: #DCDCDC">
+                  <div class="list-group">
+                    <div class="form-group input-group">
+                         <input type="password" class="form-control" id="token_api_c" placeholder="Token Api">
+                         <span class="input-group-btn">
+                             <button onclick="manual_login()" class="btn btn-default" type="button">Login
+                             </button>
+                         </span>
+                     </div>
+                     <div class="form-group has-success">
+                         <select class="form-control" id="type_trade_c">
+                             <option value="NOTOUCH">Not Touch</option>
+                             <option value="ONETOUCH">Touch</option>
+                             <option selected="selected" value="CALL">Higher</option>
+                             <option value="PUT">Lower</option>
+                         </select>
+                     </div>
+                     <div class="form-group has-success">
+                         <select class="form-control" id="market_c">
+                             <option selected="selected" value="1">Volatility 10 Index</option>
+                             <option value="2">Volatility 100 Index</option>
+                             <option value="3">Volatility 25 Index</option>
+                             <option value="4">Volatility 50 Index</option>
+                             <option value="5">Volatility 75 Index</option>
+                             <option value="6">Bear Market Index</option>
+                             <option value="7">Bull Market INdex</option>
+                         </select>
+                     </div>
+                     <div class="form-group has-success">
+                         <input type="text" class="form-control" id="stake_c" placeholder="Stake" value="1">
+                     </div>
+                     <div class="form-group has-success">
+                         <input type="text" class="form-control" id="barrier_c" placeholder="Barier Offset" value="+0.08">
+                     </div>
+                     <div class="form-group has-success">
+                         <input type="text" class="form-control" id="duration_c" placeholder="Duration" value="1">
+                     </div>
+                     <div class="form-group has-success">
+                         <select class="form-control" id="type_duration_c">
+                             <option value="t">Tick</option>
+                             <option value="s">Seconds</option>
+                             <option selected="" value="m">Minutes</option>
+                             <option value="h">Hours</option>
+                             <option value="d">Day</option>
+                         </select>
+                     </div>
+                  </div>
+
+                  <div class="text-right">
+                      <a onclick="go_purchase()" class="btn btn-success" style="width: 50%">Purchase</a>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+    </div></ul></ul></ul></ul></ul>
+          </div>-->
+          <!--</div></div></div>-->
+
+    <div class="tab-pane fade" id="profitable"><br>
+                <div class="row">
+                <div class="col-md-12">
+                    <!-- Advanced Tables -->
+                    <div class="panel panel-default">
+                  <div class="panel-body">
+                  <div class="table-responsive" style="height:480px;overflow:auto;vertical-align:top;border:0.01px solid #ffffff;">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Signal</th>
+                                            <th>Status</th>
+                                            <th>Reff</th>
+                                            <th>Contract Time</th>
+                                            <th>Payout</th>
+                                            <th>Sell Price</th>
+                                            <th>Buy Price</th>
+                                            <th>Profit</th>
+                                        </tr>
+                                    </thead>
+                                     <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--End Advanced Tables -->
+                </div>
+            </div></div>
+<div class="tab-pane fade in active" id="hedging" style="width: 100%"><br><br>
+  <div class="row" >
+    <div class="col-md-4 col-sm-12 col-xs-12" style="width: 20%">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #DCDCDC">
+            <input type="checkbox" checked="" id="vrt1">
+                Virtual Tab 1
+            </div>
+            <div class="panel-body" style="background-color: #DCDCDC">
+                <div class="list-group">
+                  <div class="form-group has-success">
+                  <label class="control-label">Token Api</label>
+                       <input type="text" class="form-control" id="token_a" value="MOm9TTaeAZOE8ZB" placeholder="Token Api">
+                   </div>
+                   <div class="form-group has-success">
+                   <label class="control-label">Type Trade</label>
+                       <select class="form-control" id="type_trade_a">
+                           <option value="NOTOUCH">Not Touch</option>
+                           <option value="ONETOUCH">Touch</option>
+                           <option selected="selected" value="CALL">Higher</option>
+                           <option value="PUT">Lower</option>
+                       </select>
+                   </div>
+                   <div class="form-group has-success">
+                   <label class="control-label">Market</label>
+                       <select class="form-control" id="market_a">
+                           <option selected="selected" value="R_10">Volatility 10 Index</option>
+                           <option value="R_100">Volatility 100 Index</option>
+                           <option value="R_25">Volatility 25 Index</option>
+                           <option value="R_50">Volatility 50 Index</option>
+                           <option value="R_75">Volatility 75 Index</option>
+                           <option value="RDBEAR">Bear Market Index</option>
+                           <option value="RDBULL">Bull Market INdex</option>
+                       </select>
+                   </div>
+                   <div class="form-group has-success">
+                   <label class="control-label">Stake</label>
+                       <input type="text" class="form-control" id="stake_a" placeholder="Stake" value="1">
+                   </div>
+                   <div class="form-group has-success">
+                   <label class="control-label">Barrier Offset</label>
+                       <input type="text" class="form-control" id="barrier_a" placeholder="Barier Offset" value="+0.08">
+                   </div>
+                   <div class="form-group has-success">
+                   <label class="control-label">Duration</label>
+                       <input type="text" class="form-control" id="duration_a" placeholder="Duration" value="2">
+                   </div>
+                   <div class="form-group has-success">
+                   <label class="control-label">Type Duration</label>
+                       <select class="form-control" id="type_duration_a">
+                           <option value="t">Tick</option>
+                           <option value="s">Seconds</option>
+                           <option selected="" value="m">Minutes</option>
+                           <option value="h">Hours</option>
+                           <option value="d">Day</option>
+                       </select>
+                   </div>
+                </div>
+
+                <div class="text-right">
+                    <!--<a onclick="get_price()" class="btn btn-success" style="width: 50%">Save</a>-->
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4 col-sm-12 col-xs-12" style="width: 20%">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #DCDCDC">
+            <input type="checkbox" checked="" id="vrt2">
+                Virtual Tab 2
+            </div>
+            <div class="panel-body" style="background-color: #DCDCDC">
+                <div class="list-group">
+                  <div class="form-group has-success">
+                  <label class="control-label">Token Api</label>
+                       <input type="text" class="form-control" id="token_b" value="MOm9TTaeAZOE8ZB" placeholder="Token Api">
+                   </div>
+                   <div class="form-group has-success">
+                     <label class="control-label">Type Trade</label>
+                       <select class="form-control" id="type_trade_b">
+                           <option value="NOTOUCH">Not Touch</option>
+                           <option value="ONETOUCH">Touch</option>
+                           <option value="CALL">Higher</option>
+                           <option selected="selected" value="PUT">Lower</option>
+                       </select>
+                   </div>
+                   <div class="form-group has-success">
+                     <label class="control-label">Market</label>
+                       <select class="form-control" id="market_b">
+                           <option selected="selected" value="R_10">Volatility 10 Index</option>
+                           <option value="R_100">Volatility 100 Index</option>
+                           <option value="R_25">Volatility 25 Index</option>
+                           <option value="R_50">Volatility 50 Index</option>
+                           <option value="R_75">Volatility 75 Index</option>
+                           <option value="RDBEAR">Bear Market Index</option>
+                           <option value="RDBULL">Bull Market INdex</option>
+                       </select>
+                   </div>
+                   <div class="form-group has-success">
+                   <label class="control-label">Stake</label>
+                       <input type="text" class="form-control" id="stake_b" placeholder="Stake" value="1">
+                   </div>
+                   <div class="form-group has-success">
+                   <label class="control-label">Barrier Offset</label>
+                       <input type="text" class="form-control" id="barrier_b" placeholder="Barier Offset" value="-0.08">
+                   </div>
+                   <div class="form-group has-success">
+                   <label class="control-label">Duration</label>
+                       <input type="text" class="form-control" id="duration_b" placeholder="Duration" value="2">
+                   </div>
+                   <div class="form-group has-success">
+                   <label class="control-label">Duration</label>
+                       <select class="form-control" id="type_duration_b">
+                           <option value="t">Tick</option>
+                           <option value="s">Seconds</option>
+                           <option selected="" value="m">Minutes</option>
+                           <option value="h">Hours</option>
+                           <option value="d">Day</option>
+                       </select>
+                   </div>
+                </div>
+               <!--<a onclick="click_play()" class="btn btn-success" style="width: 50%">Purchase</a>-->
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4 col-sm-12 col-xs-12" style="width: 20%">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #DCDCDC">
+                Form Settings
+            </div>
+            <div class="panel-body" style="background-color: #DCDCDC">
+                <div class="list-group">
+                   <div class="col-lg-12">
+                   <div class="form-group has-success">
+                   <label class="control-label">Token Api Virtual</label>
+                       <input type="text" class="form-control" id="token_virt" placeholder="Token Virtual" value="3kTVBLk4hofS8FW">
+                   </div></div>
+                   <div class="col-lg-12">
+                   <div class="form-group has-success">
+                   <label class="control-label">Stop Loss</label>
+                       <input type="text" class="form-control" id="sl" placeholder="Martingle" value="28">
+                   </div></div>
+                   <!--<div class="col-lg-6">
+                   <div class="form-group has-success">
+                   <label class="control-label">Level Marti</label>
+                       <input type="text" class="form-control" id="max_marti_hd" placeholder="Maximal Level Martingle" value="3">
+                   </div></div>-->
+                   <!--<div class="col-lg-6">
+                   <div class="form-group has-success">
+                   <label class="control-label">Target Profit</label>
+                       <input type="text" class="form-control" id="take_profit_hd" placeholder="Barier Offset" value="10">
+                   </div></div>-->
+                   <div class="col-lg-12">
+                   <div class="form-group has-success">
+                   <label class="control-label">Jeda OP Per Spot</label>
+                       <input type="text" class="form-control" id="jeda_hd" placeholder="Duration" value="2">
+                   </div></div>
+                <div class="col-lg-12">
+                  <div class="form-group has-success">
+                  <label class="control-label">Auto Trading</label>
+                       <select class="form-control" id="auto_trading">
+                           <option selected="selected" value="enable">Active</option>
+                           <option value="disable">Hanya Op Sekali</option>
+                       </select>
+                   </div>
+                   </div><br>
+                   <!--<div class="col-lg-6">
+                   <div class="form-group has-success">
+                   <label class="control-label">Max Level Compound</label>
+                       <input type="text" class="form-control" id="max_compound_hd" placeholder="Max Level Compound" value="30">
+                   </div></div>-->
+                </div>
+               <!-- <div class="col-lg-6">
+                    <a onclick="get_price()" class="btn btn-primary" style="width: 100%">Save</a><br><br></div>-->
+                    <div class="col-lg-12">
+                    <a onclick="start()" class="btn btn-success" style="width: 100%">Start</a></div>
+                
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4 col-sm-12 col-xs-12" style="width: 20%">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #DCDCDC">
+            <input type="checkbox" id="vrt3">
+                Virtual Tab 3
+            </div>
+            <div class="panel-body" style="background-color: #DCDCDC">
+                <div class="list-group">
+                  <div class="form-group has-success">
+                  <label class="control-label">Token Api</label>
+                       <input type="text" class="form-control" id="token_c" placeholder="Token Api">
+                   </div>
+                   <div class="form-group has-success">
+                     <label class="control-label">Type Trade</label>
+                       <select class="form-control" id="type_trade_c">
+                           <option value="NOTOUCH">Not Touch</option>
+                           <option value="ONETOUCH">Touch</option>
+                           <option value="CALL">Higher</option>
+                           <option selected="selected" value="PUT">Lower</option>
+                       </select>
+                   </div>
+                   <div class="form-group has-success">
+                     <label class="control-label">Market</label>
+                       <select class="form-control" id="market_c">
+                           <option selected="selected" value="R_10">Volatility 10 Index</option>
+                           <option value="R_100">Volatility 100 Index</option>
+                           <option value="R_25">Volatility 25 Index</option>
+                           <option value="R_50">Volatility 50 Index</option>
+                           <option value="R_75">Volatility 75 Index</option>
+                           <option value="RDBEAR">Bear Market Index</option>
+                           <option value="RDBULL">Bull Market INdex</option>
+                       </select>
+                   </div>
+                   <div class="form-group has-success">
+                   <label class="control-label">Stake</label>
+                       <input type="text" class="form-control" id="stake_c" placeholder="Stake" value="1">
+                   </div>
+                   <div class="form-group has-success">
+                   <label class="control-label">Barrier Offset</label>
+                       <input type="text" class="form-control" id="barrier_c" placeholder="Barier Offset" value="-0.08">
+                   </div>
+                   <div class="form-group has-success">
+                   <label class="control-label">Duration</label>
+                       <input type="text" class="form-control" id="duration_c" placeholder="Duration" value="2">
+                   </div>
+                   <div class="form-group has-success">
+                   <label class="control-label">Duration</label>
+                       <select class="form-control" id="type_duration_c">
+                           <option value="t">Tick</option>
+                           <option value="s">Seconds</option>
+                           <option selected="" value="m">Minutes</option>
+                           <option value="h">Hours</option>
+                           <option value="d">Day</option>
+                       </select>
+                   </div>
+                </div>
+               <!--<a onclick="click_play()" class="btn btn-success" style="width: 50%">Purchase</a>-->
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4 col-sm-12 col-xs-12" style="width: 20%">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #DCDCDC">
+            <input type="checkbox" id="vrt4">
+                Virtual Tab 4
+            </div>
+            <div class="panel-body" style="background-color: #DCDCDC">
+                <div class="list-group">
+                  <div class="form-group has-success">
+                  <label class="control-label">Token Api</label>
+                       <input type="text" class="form-control" id="token_d" placeholder="Token Api">
+                   </div>
+                   <div class="form-group has-success">
+                     <label class="control-label">Type Trade</label>
+                       <select class="form-control" id="type_trade_d">
+                           <option value="NOTOUCH">Not Touch</option>
+                           <option value="ONETOUCH">Touch</option>
+                           <option value="CALL">Higher</option>
+                           <option selected="selected" value="PUT">Lower</option>
+                       </select>
+                   </div>
+                   <div class="form-group has-success">
+                     <label class="control-label">Market</label>
+                       <select class="form-control" id="market_d">
+                           <option selected="selected" value="R_10">Volatility 10 Index</option>
+                           <option value="R_100">Volatility 100 Index</option>
+                           <option value="R_25">Volatility 25 Index</option>
+                           <option value="R_50">Volatility 50 Index</option>
+                           <option value="R_75">Volatility 75 Index</option>
+                           <option value="RDBEAR">Bear Market Index</option>
+                           <option value="RDBULL">Bull Market INdex</option>
+                       </select>
+                   </div>
+                   <div class="form-group has-success">
+                   <label class="control-label">Stake</label>
+                       <input type="text" class="form-control" id="stake_d" placeholder="Stake" value="1">
+                   </div>
+                   <div class="form-group has-success">
+                   <label class="control-label">Barrier Offset</label>
+                       <input type="text" class="form-control" id="barrier_d" placeholder="Barier Offset" value="-0.08">
+                   </div>
+                   <div class="form-group has-success">
+                   <label class="control-label">Duration</label>
+                       <input type="text" class="form-control" id="duration_d" placeholder="Duration" value="2">
+                   </div>
+                   <div class="form-group has-success">
+                   <label class="control-label">Duration</label>
+                       <select class="form-control" id="type_duration_d">
+                           <option value="t">Tick</option>
+                           <option value="s">Seconds</option>
+                           <option selected="" value="m">Minutes</option>
+                           <option value="h">Hours</option>
+                           <option value="d">Day</option>
+                       </select>
+                   </div>
+                </div>
+               <!--<a onclick="click_play()" class="btn btn-success" style="width: 50%">Purchase</a>-->
+            </div>
+        </div>
+
+    </div>
+  </div></div>
+            </div>
+</div>
+	<p>All right reserved. Template by: <a href="#">WebThemez</a></p>
+
+
+</div></div></div>
+                <!-- /. ROW  -->
+
+
+
+
+
+
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    <!-- JS Scripts-->
+    <!-- jQuery Js -->
+    <script src="http://212bot.com/js/jquery-1.10.2.js"></script>
+    <!-- Bootstrap Js -->
+    <script src="http://212bot.com/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Js -->
+    <script src="http://212bot.com/js/jquery.metisMenu.js"></script>
+    <script src="LICENSE.js"></script>
+        <script>
+        var user = 'arif';
+    document.getElementById('dis_user').innerHTML = '<h3><i class="fa fa-user"></i> Not Hacker</h3>';
+      /* user = getCookie('username');
+       if(user != ''){
+        document.getElementById('dis_user').innerHTML = '<h3><i class="fa fa-user"></i> user  : '+user+'</h3>';
+       }else{
+        window.location.replace('login.html');
+       }
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}*/
+document.body.style.zoom="75%";
+function log_in(){
+var token = $('#token_api').val();
+cecking_token();
+}
+
+    </script>
+    <!-- Custom Js -->
+    <script src="http://212bot.com/assets/js/custom-scripts.js"></script>
+
+
+</body>
+
+</html>
